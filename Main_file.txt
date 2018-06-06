@@ -1,1 +1,80 @@
-2
+#include "ceasar.h" 
+#include <iostream> 
+#include <stdexcept> 
+#include <Windows.h> 
+#include <ctype.h> 
+#include <string> 
+using namespace std; 
+int main() 
+{ 
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	string k,input; 
+	unsigned int key; 
+	int i = 0, l = 0, max=26; 
+	char answer = '1'; 
+	cout << "Введите ключ:" << endl; 
+	cin >> key; 
+	try 
+	{ 
+		if ((key >= max) | (key <= 0)) 
+			throw 1; 
+		while (answer!='0') 
+		{ 
+			cout << "Введите текст:" << endl; 
+			cin.ignore(); 
+			getline (cin, k) ;
+			cout << "Кодировать - 1"<<endl<<"Декодировать - 2"<<endl<<"Выход - 3" << endl; 
+			cin >> answer; 
+			if (answer == '1') 
+			{ 
+				Encode x(key); 
+				input = x.Encrypt(k); 
+			} 
+			else if (answer == '2') 
+			{ 
+				Encode x(key); 
+				input = x.Decrypt(k); 
+			} 
+			else if (answer=='3') 
+			{ 
+			} 
+			else 
+				throw 5; 
+			if(answer!='0') 
+				cout << input << endl; 
+		} 
+	} 
+	catch (int error) 
+	{ 
+		if (error == 1) 
+		{ 
+			cerr << "Ошибка ввода ключа" << endl; 
+			return 1; 
+		} 
+		else 
+			if (error == 2) 
+			{ 
+				cerr << "Ошибка ввода текста"<<endl<<"Нельзя вводить цифры в исходный текст" << endl; 
+				return 2; 
+			} 
+
+			else 
+				if (error == 3) 
+				{ 
+					cerr << "Ошибка ввода текста"<<endl<<"Вводить можно только символы английского алфавита" << endl; 
+					return 3; 
+				} 
+				else 
+					if (error == 4) 
+					{ 
+						cerr << "Ошибка ввода текста" << endl; 
+						return 4; 
+					} 
+					{ 
+						cerr << "Ошибка, введите от 0 до 2" << endl; 
+						return 5; 
+					} 
+	} 
+	return 0;
+}
